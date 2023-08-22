@@ -1,0 +1,76 @@
+<div class="container">
+    <h3 mat-dialog-title *ngIf="flag == 1">Dodavanje usluge korisniku:</h3>
+    <h3 mat-dialog-title *ngIf="flag == 2">Modifikacija usluge: {{data.id}}</h3>
+    <h3 mat-dialog-title *ngIf="flag == 3">Brisanje usluge: {{data.id}}</h3>
+  
+    <form class="mat-dialog-content"  #formControl="ngForm">
+  
+      <div class="form">
+        <mat-form-field>
+          <mat-select [(ngModel)]="data.korisnikUsluge" placeholder="Korisnik" name="korisnik" [compareWith]="compareTo" [disabled]="flag == 3"  required>
+            <mat-option *ngFor="let korisnik of korisnici" [value]="korisnik">
+              {{ korisnik.ime + ' ' + korisnik.prezime }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="Naziv usluge" [(ngModel)]="data.naziv" name="naziv" [disabled]="flag == 3"  required>
+        </mat-form-field>
+      </div>
+  
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="Opis usluge" [(ngModel)]="data.opis_Usluge" name="opis_Usluge" [disabled]="flag == 3">
+        </mat-form-field>
+      </div>
+  
+      <div class="form">
+        <mat-form-field>
+            <input matInput [matDatepicker]="datum_Ugovora" placeholder="Datum ugovora"
+                [(ngModel)]="data.datum_Ugovora" name="ugovoreno" [disabled]="flag == 3"  required>
+            <mat-datepicker-toggle matSuffix [for]="datum_Ugovora"></mat-datepicker-toggle>
+            <mat-datepicker #datum_Ugovora></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field class="example-full-width">
+            <input type="tel" matInput placeholder="Provizija" [(ngModel)]="data.provizija" name="provizija"
+                [disabled]="flag == 3"  required>
+            <span matSuffix>RSD</span>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+            <mat-select [(ngModel)]="data.filijala" placeholder="Filijala" name="filijala"
+                [compareWith]="compareTo" [disabled]="flag == 3"  required>
+                <mat-option *ngFor="let filijala of filijale" [value]="filijala">
+                    {{ filijala.adresa }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field>
+          <mat-select [(ngModel)]="data.korisnikUsluge" placeholder="Korisnik" name="korisnik"
+              [compareWith]="compareTo" [disabled]="flag == 3">
+              <mat-option *ngFor="let korisnik of korisnici" [value]="korisnik"  required>
+                  {{ korisnik.ime + ' ' + korisnik.prezime }}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+  </div>
+  
+      <div mat-dialog-actions>
+        <button mat-button *ngIf="flag == 1" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="add()">Sačuvaj</button>
+        <button mat-button *ngIf="flag == 2"  [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="update()">Sačuvaj</button>
+        <button mat-button *ngIf="flag == 3"  [mat-dialog-close]="1" (click)="delete()">Obriši</button>
+        <button mat-button (click)="cancel()" tabindex="-1">Poništi</button>
+      </div>
+    </form>
+  </div>

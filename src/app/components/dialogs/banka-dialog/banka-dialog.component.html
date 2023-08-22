@@ -1,0 +1,51 @@
+<div class="container">
+    <h3 mat-dialog-title *ngIf="flagArtDialog == 1">Dodavanje banke</h3> <!--NgIf direktiva (ima *) kontrolise sta da se napise-->
+    <h3 mat-dialog-title *ngIf="flagArtDialog == 2">Modifikacija banke: {{dataBanka.naziv}}</h3> <!--korisniku u odnosu na flag-->
+    <h3 mat-dialog-title *ngIf="flagArtDialog == 3">Brisanje banke: {{dataBanka.naziv}}</h3> <!--moguce je prikazati i skrivati elemente-->
+    <form class="mat-dialog-content" #formControl="ngForm">
+        <div class="form">
+            <mat-form-field>
+                <input matInput placeholder="Naziv" [(ngModel)]="dataBanka.naziv" name="naziv" [disabled]="flagArtDialog == 3"
+                    required> <!--Ako se javi greska za null zbog dataBanka.naziv prilikom inputa , prosledjuje negde null vrednost-->
+                                <!--Disabled kontrolise da li je input polje dozvoljeno ili ne-->
+                                <!--[(ngModel)] two-way binding, kako se menja html , menja se property
+                                    i property izmene utica na property, dakle kad se u input polju
+                                    obrise nesto brise se i u izmenama, problem je sto se ne pamti
+                                    stara verzija podatka, npr AD Imlek delete AD ostane imlet,
+                                    ALI NA BAZI JOS UVEK STOJI AD IMLEK
+                                    I kad se refershuje prikazuju se stare vrednosti
+                                    ipak ngModel je dobar zato sto odma imamo nove podatke korisniku da prikazemo..-->
+            </mat-form-field>
+        </div>
+        <div class="form">
+            <mat-form-field>
+                <input matInput placeholder="Kontakt" [(ngModel)]="dataBanka.kontakt" name="kontakt"
+                    [disabled]="flagArtDialog == 3" required>
+            </mat-form-field>
+        </div>
+        <div class="form">
+            <mat-form-field>
+                <input matInput placeholder="PIB" [(ngModel)]="dataBanka.pib" name="pib"
+                    [disabled]="flagArtDialog == 3">
+            </mat-form-field>
+        </div>
+        <div mat-dialog-actions>
+            <button mat-button *ngIf="flagArtDialog==1" type="submit" [mat-dialog-close]="1" (click)="add()"
+                [disabled]="!formControl.valid">
+                Sačuvaj
+            </button>
+            <button mat-button *ngIf="flagArtDialog==2" type="submit" [mat-dialog-close]="1" (click)="update()"
+                [disabled]="!formControl.valid"> <!--Ako neko polje nije popunjeno onda forma nije validna.-->
+                Sačuvaj
+            </button>
+            <button mat-button *ngIf="flagArtDialog==3" type="submit" [mat-dialog-close]="1" (click)="delete()">
+                Obriši
+            </button>
+            <button mat-button (click)="cancel()">
+                Poništi
+            </button>
+        </div>
+
+    </form>
+
+</div>
